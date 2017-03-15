@@ -33,14 +33,22 @@ namespace ToDoTogetherApp.Views
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            await vm.AuthenticateAsync();
+            if (await vm.AuthenticateAsync())
+            {
+                frame.Navigate(typeof(NavView));
+                Window.Current.Content = frame;
+                Window.Current.Activate();
+            }
         }
 
+        Frame frame = new Frame();
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (vm.IsAuthenticated())
             {
-                // todo: navigate away
+                frame.Navigate(typeof(NavView));
+                Window.Current.Content = frame;
+                Window.Current.Activate();
             }
         }
     }
