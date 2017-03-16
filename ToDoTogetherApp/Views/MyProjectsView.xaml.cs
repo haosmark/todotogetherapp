@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using ToDoTogetherApp.Models;
+using ToDoTogetherApp.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,9 +24,27 @@ namespace ToDoTogetherApp.Views
     /// </summary>
     public sealed partial class MyProjectsView : Page
     {
+        private MyProjectsViewModel vm = new MyProjectsViewModel();
         public MyProjectsView()
         {
             this.InitializeComponent();
+            this.DataContext = vm;
+        }
+
+        private async void AddProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            Project p = await vm.AddProject(ProjectNameTextBox.Text);
+        }
+
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            await vm.GetProjectsAsync();
+        }
+
+        private void ProjectsList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var project = e.ClickedItem as Project;
+            Frame.Navigate(typeof(ProjectDetailsView), project);
         }
     }
 }
