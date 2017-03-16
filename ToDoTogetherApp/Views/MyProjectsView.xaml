@@ -8,6 +8,21 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="My Projects View" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="ProjectNameTextBox" />
+                <Button x:Name="AddProjectButton" Content="AddButton" Click="AddProjectButton_Click" />
+            </StackPanel>
+            <ListView ItemsSource="{Binding Projects}"
+                      x:Name="ProjectsList"
+                      IsItemClickEnabled="True"
+                      ItemClick="ProjectsList_ItemClick">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
     </Grid>
 </Page>
