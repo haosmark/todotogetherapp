@@ -10,37 +10,54 @@
     mc:Ignorable="d">
 
     <RelativePanel Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="{x:Bind vm.SelectedProject.Name}"
-                   Foreground="Black" FontSize="50" 
+        <TextBlock Text="{x:Bind vm.SelectedProject.Name}" RelativePanel.RightOf="DeleteProjectButton"
+                   Foreground="Black" FontSize="30" Margin="10"
                    x:Name="ProjectNameBlock" />
-        <Button Content="Delete Project" x:Name="DeleteProjectButton" RelativePanel.Below="ProjectNameBlock"
-                Click="DeleteProjectButton_Click" />
+        <Button x:Name="DeleteProjectButton" Background="Transparent" Foreground="Black" Margin="10"
+                Click="DeleteProjectButton_Click">
+            <Button.Content>
+                <SymbolIcon Symbol="Delete" />
+            </Button.Content>
+        </Button>
         <StackPanel Orientation="Horizontal" RelativePanel.Below="DeleteProjectButton"
                     x:Name="TaskItemsStackPanel">
-            <TextBox x:Name="TaskNameBox" />
-            <Button x:Name="AddTaskButton" Content="Add Task"
-                    Click="AddTaskButton_Click" />
+            <TextBox x:Name="TaskNameBox" Margin="10" MinWidth="200" PlaceholderText="Task Name" />
+            <Button x:Name="AddTaskButton" Background="Transparent" Foreground="Black"
+                    Click="AddTaskButton_Click">
+                <Button.Content>
+                    <SymbolIcon Symbol="Add" />
+                </Button.Content>
+            </Button>
         </StackPanel>
 
         <ListView ItemsSource="{x:Bind vm.TaskItems}" x:Name="TaskItemsList" RelativePanel.Below="TaskItemsStackPanel">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="data:TaskItem">
-                    <TextBlock Text="{x:Bind Name}" />
+                    <CheckBox x:Name="TaskItemCheck" 
+                              Content="{x:Bind Name}" 
+                              FontSize="18"
+                              Checked="TaskItemCheck_Checked"
+                              Unchecked="TaskItemCheck_Unchecked"
+                              IsChecked="{Binding Complete}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
         <StackPanel Orientation="Horizontal" RelativePanel.Below="TaskItemsList"
                     x:Name="CollaboratorsStackPanel">
-            <TextBox x:Name="CollaboratorsEmailBox" />
-            <Button x:Name="AddCollaboratorButton" Content="Add Collaborator"
-                    Click="AddCollaboratorButton_Click" />
+            <TextBox x:Name="CollaboratorsEmailBox" Margin="10" MinWidth="200" PlaceholderText="Email Address" />
+            <Button x:Name="AddCollaboratorButton" Background="Transparent" Foreground="Black"
+                    Click="AddCollaboratorButton_Click">
+                <Button.Content>
+                    <SymbolIcon Symbol="Add" />
+                </Button.Content>
+            </Button>
         </StackPanel>
 
         <ListView ItemsSource="{x:Bind vm.Collaborators}" RelativePanel.Below="CollaboratorsStackPanel">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="data:User">
-                    <TextBlock Text="{x:Bind Email}" />
+                    <TextBlock Text="{x:Bind Email}" FontSize="18" Margin="10" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
