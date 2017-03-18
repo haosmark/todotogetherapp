@@ -57,5 +57,19 @@ namespace ToDoTogetherApp.Views
             await vm.AddCollaboratorAsync(CollaboratorsEmailBox.Text);
             CollaboratorsEmailBox.Text = "";
         }
+
+        private async void TaskItemCheck_Checked(object sender, RoutedEventArgs e)
+        {
+            TaskItem t = (sender as CheckBox).DataContext as TaskItem;
+            await vm.CompleteTask(t.Id, true);
+            t.Complete = true;
+        }
+
+        private async void TaskItemCheck_Unchecked(object sender, RoutedEventArgs e)
+        {
+            TaskItem t = (sender as CheckBox).DataContext as TaskItem;
+            await vm.CompleteTask(t.Id, false);
+            t.Complete = false;
+        }
     }
 }
