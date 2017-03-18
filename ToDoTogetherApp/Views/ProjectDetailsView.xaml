@@ -5,11 +5,44 @@
     xmlns:local="using:ToDoTogetherApp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    xmlns:data="using:ToDoTogetherApp.Models"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Text="Project Detail View"
-                   Foreground="Black" />
-    </Grid>
+    <RelativePanel Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock Text="{x:Bind vm.SelectedProject.Name}"
+                   Foreground="Black" FontSize="50" 
+                   x:Name="ProjectNameBlock" />
+        <Button Content="Delete Project" x:Name="DeleteProjectButton" RelativePanel.Below="ProjectNameBlock"
+                Click="DeleteProjectButton_Click" />
+        <StackPanel Orientation="Horizontal" RelativePanel.Below="DeleteProjectButton"
+                    x:Name="TaskItemsStackPanel">
+            <TextBox x:Name="TaskNameBox" />
+            <Button x:Name="AddTaskButton" Content="Add Task"
+                    Click="AddTaskButton_Click" />
+        </StackPanel>
+
+        <ListView ItemsSource="{x:Bind vm.TaskItems}" x:Name="TaskItemsList" RelativePanel.Below="TaskItemsStackPanel">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="data:TaskItem">
+                    <TextBlock Text="{x:Bind Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <StackPanel Orientation="Horizontal" RelativePanel.Below="TaskItemsList"
+                    x:Name="CollaboratorsStackPanel">
+            <TextBox x:Name="CollaboratorsEmailBox" />
+            <Button x:Name="AddCollaboratorButton" Content="Add Collaborator"
+                    Click="AddCollaboratorButton_Click" />
+        </StackPanel>
+
+        <ListView ItemsSource="{x:Bind vm.Collaborators}" RelativePanel.Below="CollaboratorsStackPanel">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="data:User">
+                    <TextBlock Text="{x:Bind Email}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </RelativePanel>
 </Page>
