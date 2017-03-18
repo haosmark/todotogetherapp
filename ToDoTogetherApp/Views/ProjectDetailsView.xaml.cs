@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using ToDoTogetherApp.Models;
+using ToDoTogetherApp.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,9 +25,37 @@ namespace ToDoTogetherApp.Views
     /// </summary>
     public sealed partial class ProjectDetailsView : Page
     {
+        public ProjectDetailsViewModel vm;
         public ProjectDetailsView()
         {
             this.InitializeComponent();
+            vm = new ProjectDetailsViewModel();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            var project = e.Parameter as Project;
+            vm.SelectedProject = project;
+            vm.TaskItems = new ObservableCollection<TaskItem>(project.Tasks);
+            vm.Collaborators = new ObservableCollection<User>(project.Collaborators);
+        }
+
+        private async void DeleteProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            await vm.DeleteProjectAsync();
+            Frame.Navigate(typeof(MyProjectsView));
+        }
+
+        private async void AddTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            await vm.AddTaskAsync(TaskNameBox.Text);
+            TaskNameBox.Text = "";
+        }
+
+        private async void AddCollaboratorButton_Click(object sender, RoutedEventArgs e)
+        {
+            await vm.AddCollaboratorAsync(CollaboratorsEmailBox.Text);
+            CollaboratorsEmailBox.Text = "";
         }
     }
 }
