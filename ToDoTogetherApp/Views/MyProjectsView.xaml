@@ -5,21 +5,51 @@
     xmlns:local="using:ToDoTogetherApp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:ToDoTogetherApp.Models"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
+            <TextBlock Text="My Projects" FontSize="30" Margin="10" Foreground="Black" />
             <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="ProjectNameTextBox" />
-                <Button x:Name="AddProjectButton" Content="AddButton" Click="AddProjectButton_Click" />
+                <TextBox x:Name="ProjectNameTextBox" Margin="10" MinWidth="200" PlaceholderText="Project Name" />
+                <Button x:Name="AddProjectButton" Margin="10" Background="Transparent" Foreground="Black"
+                        Click="AddProjectButton_Click">
+                    <Button.Content>
+                        <SymbolIcon Symbol="Add" />
+                    </Button.Content>
+                </Button>
             </StackPanel>
             <ListView ItemsSource="{Binding Projects}"
                       x:Name="ProjectsList"
                       IsItemClickEnabled="True"
                       ItemClick="ProjectsList_ItemClick">
                 <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
+                    <DataTemplate x:DataType="data:Project">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" FontSize="26" Margin="5" />
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Contact" Height="20" />
+                                <TextBlock FontSize="20">
+                                    <Run Text=" " />
+                                    <Run Text="{x:Bind Owner.UserName}" />
+                                    <Run Text=" | " />
+                                </TextBlock>
+
+                                <SymbolIcon Symbol="Bullets" Height="20" />
+                                <TextBlock FontSize="20">
+                                    <Run Text=" " />
+                                    <Run Text="{x:Bind Tasks.Count}" />
+                                    <Run Text=" | " />
+                                </TextBlock>
+
+                                <SymbolIcon Symbol="People" Height="20" />
+                                <TextBlock FontSize="20">
+                                    <Run Text=" " />
+                                    <Run Text="{x:Bind Collaborators.Count}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
