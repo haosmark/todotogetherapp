@@ -79,6 +79,7 @@ namespace ToDoTogetherApp.Common
             }
 
             t.Complete = complete;
+            await taskItemsTable.UpdateAsync(t);
         }
 
         public async Task DeleteProjectByIdAsync(string projectId)
