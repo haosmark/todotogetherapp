@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using ToDoTogetherApp.Models;
+using ToDoTogetherApp.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,6 +27,20 @@ namespace ToDoTogetherApp.Views
         public OtherProjectsView()
         {
             this.InitializeComponent();
+            this.DataContext = vm;
+        }
+
+        private OtherProjectsViewModel vm = new OtherProjectsViewModel();
+  
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            await vm.GetProjectsAsync();
+        }
+
+        private void ProjectsList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var project = e.ClickedItem as Project;
+            Frame.Navigate(typeof(ProjectDetailsView), project);
         }
     }
 }
