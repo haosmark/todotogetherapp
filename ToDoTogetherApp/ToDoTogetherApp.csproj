@@ -112,6 +112,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MyProjectsViewModel.cs" />
     <Compile Include="ViewModels\NavViewModel.cs" />
+    <Compile Include="ViewModels\OtherProjectsViewModel.cs" />
     <Compile Include="ViewModels\ProjectDetailsViewModel.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
